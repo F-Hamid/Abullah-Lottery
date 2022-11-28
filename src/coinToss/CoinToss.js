@@ -7,6 +7,13 @@ const CoinToss = () => {
   let [total, setTotal] = useState(0);
   let [newGame, setNewGame] = useState(false);
 
+  useEffect(() => {
+    if (total === 10) {
+      console.log(total);
+      setNewGame(true);
+    }
+  }, [total]);
+
   const coinToss = () => {
     if (total < 10) {
       let toss = Math.floor(Math.random() * 2);
@@ -28,8 +35,15 @@ const CoinToss = () => {
       }
       setCoin(toss);
       setTotal(head + tail);
-    } else {
+    } else if (total === 10) {
     }
+  };
+  const restart = () => {
+    setCoin(0);
+    setTail(0);
+    setHead(0);
+    setTotal(0);
+    setNewGame(false);
   };
 
   return (
@@ -53,8 +67,11 @@ const CoinToss = () => {
         CoinToss
       </button>
       <button
-        className="bg-blue-400 text-2xl text-white p-2 m-3"
-        onClick={newGame}
+        className={`bg-blue-400 text-2xl text-white p-2 m-3 ${
+          newGame ? "opacity-100" : "opacity-40"
+        }`}
+        onClick={restart}
+        disabled={!newGame}
       >
         New Game
       </button>
